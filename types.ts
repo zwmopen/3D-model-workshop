@@ -21,6 +21,7 @@ export interface ModelConfig {
   metalness: number;
   roughness: number;
   description: string;
+  emoji: string; // 必须有图标
 }
 
 export type ViewMode = 'preview' | 'code';

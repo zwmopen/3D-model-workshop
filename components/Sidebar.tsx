@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { ModelConfig, Category } from '../types';
-import { LayoutGrid, Trees, Dog, Box, Search, Shapes } from 'lucide-react';
+import { LayoutGrid, Trees, Dog, Box, Search, Shapes, ChevronRight } from 'lucide-react';
 
 interface SidebarProps {
   models: ModelConfig[];
@@ -25,80 +25,84 @@ const Sidebar: React.FC<SidebarProps> = ({ models, activeId, onSelect }) => {
     { id: 'animal', label: '动物', icon: Dog },
   ];
 
-  const neumorphicOut = "shadow-[8px_8px_16px_#b8b9be,-8px_-8px_16px_#ffffff]";
-  const neumorphicIn = "shadow-[inset_6px_6px_12px_#b8b9be,inset_-6px_-6px_12px_#ffffff]";
+  const neumorphicOut = "shadow-[4px_4px_8px_#b8b9be,-4px_-4px_8px_#ffffff]";
+  const neumorphicIn = "shadow-[inset_4px_4px_8px_#b8b9be,inset_-4px_-4px_8px_#ffffff]";
 
   return (
-    <aside className="w-96 bg-[#e0e5ec] border-r border-white/20 flex flex-col z-20">
+    <aside className="w-80 h-full bg-[#e0e5ec] rounded-r-[4rem] shadow-[25px_0_60px_rgba(0,0,0,0.08)] flex flex-col z-20 border-r border-white/60 relative overflow-hidden">
       <div className="p-10 flex flex-col gap-8">
-        <div className={`p-6 rounded-[2.5rem] bg-[#e0e5ec] ${neumorphicOut} flex items-center gap-5 border border-white/60`}>
-          <div className="bg-indigo-600 p-3.5 rounded-[1.5rem] shadow-xl shadow-indigo-200">
-            <Box className="w-7 h-7 text-white" />
+        <div className="flex items-center gap-4">
+          <div className={`w-12 h-12 rounded-full bg-[#e0e5ec] ${neumorphicOut} flex items-center justify-center border border-white/80`}>
+            <Box className="w-6 h-6 text-indigo-500" />
           </div>
           <div>
-            <span className="text-xl font-black text-slate-700 block tracking-tighter leading-none">精致云库</span>
-            <span className="text-[11px] text-slate-400 font-bold uppercase mt-2.5 block tracking-widest">
-              ASSETS: {models.length}
-            </span>
+            <h1 className="text-lg font-black text-slate-800 tracking-tighter leading-tight">3D 设计云工坊</h1>
+            <p className="text-[9px] text-slate-400 font-bold tracking-[0.2em] uppercase">高精数字资产库</p>
           </div>
         </div>
         
-        <div className={`relative rounded-full bg-[#e0e5ec] ${neumorphicIn} p-1.5`}>
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <div className={`relative rounded-full bg-[#e0e5ec] ${neumorphicIn} px-5 py-3.5 flex items-center gap-3 group transition-all duration-300`}>
+          <Search className="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
           <input 
             type="text"
-            placeholder="搜索模型..."
+            placeholder="搜寻高精模型..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-transparent border-none py-3.5 pl-12 pr-6 text-sm focus:outline-none text-slate-600 placeholder:text-slate-400"
+            className="bg-transparent border-none text-[12px] focus:outline-none text-slate-600 placeholder:text-slate-400 w-full font-bold"
           />
         </div>
       </div>
 
-      <div className={`flex p-2 gap-2 bg-[#e0e5ec] mx-8 mb-6 rounded-full ${neumorphicIn}`}>
+      {/* 分类切换：极致圆角 */}
+      <div className="flex p-2 gap-2 bg-[#e0e5ec] mx-8 mb-8 rounded-full shadow-[inset_3px_3px_6px_#b8b9be,inset_-3px_-3px_6px_#ffffff]">
         {categories.map(cat => (
           <button
             key={cat.id}
             onClick={() => setFilter(cat.id)}
-            className={`flex-1 flex flex-col items-center py-3.5 rounded-full transition-all duration-500 ${
-              filter === cat.id ? `bg-[#e0e5ec] text-indigo-600 ${neumorphicOut} border border-white/50` : 'text-slate-400 hover:text-slate-500'
+            className={`flex-1 flex flex-col items-center py-3 rounded-full transition-all duration-500 ${
+              filter === cat.id ? `bg-[#e0e5ec] text-indigo-600 ${neumorphicOut}` : 'text-slate-400 hover:text-slate-500'
             }`}
           >
             <cat.icon className="w-4 h-4 mb-1" />
-            <span className="text-[9px] font-black uppercase tracking-tighter">{cat.label}</span>
+            <span className="text-[9px] font-black uppercase tracking-wider">{cat.label}</span>
           </button>
         ))}
       </div>
       
-      <div className="flex-1 overflow-y-auto px-8 pb-10 space-y-6 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto px-8 pb-12 space-y-4 custom-scrollbar">
         {filteredModels.map((model) => {
-          const displayIndex = models.length - models.indexOf(model); 
           const isActive = activeId === model.id;
-          
           return (
             <button
               key={model.id}
               onClick={() => onSelect(model)}
-              className={`w-full group flex items-center gap-5 p-5 rounded-[2.5rem] transition-all duration-500 border border-transparent ${
-                isActive ? `bg-[#e0e5ec] ${neumorphicIn} scale-95 border-white/40` : `bg-[#e0e5ec] hover:scale-[1.05] ${neumorphicOut}`
+              className={`w-full group flex items-center gap-4 p-3 rounded-full transition-all duration-300 border border-transparent ${
+                isActive 
+                  ? `bg-indigo-50/50 ${neumorphicIn} border-indigo-200/40` 
+                  : `bg-[#e0e5ec] hover:translate-x-2 ${neumorphicOut}`
               }`}
             >
-              <div className={`text-xs font-mono font-black w-8 text-right ${isActive ? 'text-indigo-600' : 'text-slate-400'}`}>
-                {String(displayIndex).padStart(2, '0')}
+              <div className={`w-11 h-11 rounded-full flex items-center justify-center text-xl transition-all duration-500 ${isActive ? 'scale-110 shadow-xl' : 'group-hover:rotate-12'}`} style={{ backgroundColor: `${model.color}20` }}>
+                {model.emoji}
               </div>
 
-              <div className="w-14 h-14 rounded-[1.5rem] shadow-inner overflow-hidden flex-shrink-0 relative" style={{ backgroundColor: model.color }}>
-                <div className="absolute inset-0 opacity-40 bg-gradient-to-br from-white to-black" />
-              </div>
-
-              <div className="flex-1 text-left">
-                <h3 className={`text-sm font-black transition-colors truncate ${isActive ? 'text-indigo-600' : 'text-slate-600'}`}>
+              <div className="flex-1 text-left min-w-0">
+                <h3 className={`text-[12px] font-black truncate tracking-tight ${isActive ? 'text-indigo-600' : 'text-slate-700'}`}>
                   {model.name}
                 </h3>
-                <p className="text-[10px] text-slate-400 mt-1 font-medium">{model.category.toUpperCase()}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: model.color }} />
+                  <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{model.category === 'animal' ? '动物' : model.category === 'tree' ? '植物' : '几何'}</span>
+                </div>
               </div>
 
-              {isActive && <div className="w-3 h-3 rounded-full bg-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.6)] animate-pulse" />}
+              {isActive ? (
+                <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center shadow-lg">
+                   <ChevronRight className="w-3.5 h-3.5 text-white" />
+                </div>
+              ) : (
+                <ChevronRight className="w-4 h-4 text-slate-300 opacity-0 group-hover:opacity-100 transition-all" />
+              )}
             </button>
           );
         })}
