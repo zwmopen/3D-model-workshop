@@ -1,0 +1,5 @@
+{
+  "name": "3D 设计云工坊",
+  "description": "基于 Three.js 技术构建的高级 3D 模型预览与交互平台。支持实时渲染预览、参数化展示及一键生成 React 组件代码。",
+  "requestFramePermissions": []
+}
