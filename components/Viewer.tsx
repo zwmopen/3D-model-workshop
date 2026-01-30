@@ -1,9 +1,31 @@
-
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stage, PerspectiveCamera, Float, ContactShadows, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { ModelConfig } from '../types';
+
+// Augment the JSX namespace to include React Three Fiber elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      group: any;
+      mesh: any;
+      boxGeometry: any;
+      meshStandardMaterial: any;
+      cylinderGeometry: any;
+      sphereGeometry: any;
+      capsuleGeometry: any;
+      coneGeometry: any;
+      torusKnotGeometry: any;
+      torusGeometry: any;
+      octahedronGeometry: any;
+      planeGeometry: any;
+      ambientLight: any;
+      directionalLight: any;
+      color: any;
+    }
+  }
+}
 
 // --- 华南虎专项高精建模组件 ---
 
@@ -136,28 +158,85 @@ const TigerModel = ({ params }: { params: any }) => {
   );
 };
 
+const PandaModel = () => {
+  return (
+    <group>
+      {/* 身体主体 */}
+      <mesh castShadow position={[0, 0, 0]}>
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshStandardMaterial color="#f8fafc" roughness={0.9} />
+      </mesh>
+      
+      {/* 头部组合 */}
+      <group position={[0.95, 0.6, 0]}>
+        {/* 头部主体 */}
+        <mesh castShadow>
+           <sphereGeometry args={[0.68, 32, 32]} />
+           <meshStandardMaterial color="#f8fafc" roughness={0.9} />
+        </mesh>
+        
+        {/* 耳朵 */}
+        {[0.45, -0.45].map((z, i) => (
+          <mesh key={i} position={[-0.15, 0.55, z]} rotation={[0.2, 0, i === 0 ? -0.2 : 0.2]}>
+             <sphereGeometry args={[0.22, 16, 16]} />
+             <meshStandardMaterial color="#1a1a1a" roughness={0.8} />
+          </mesh>
+        ))}
+
+        {/* 标志性黑眼圈 */}
+        {[0.28, -0.28].map((z, i) => (
+          <group key={i} position={[0.55, 0.12, z]} rotation={[0, i === 0 ? 0.3 : -0.3, -0.15]}>
+             <mesh scale={[1, 0.8, 0.9]}>
+                <sphereGeometry args={[0.2, 16, 16]} />
+                <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+             </mesh>
+             {/* 眼睛高光点 */}
+             <mesh position={[0.18, 0.05, 0]}>
+                <sphereGeometry args={[0.06]} />
+                <meshStandardMaterial color="#000000" roughness={0.1} />
+             </mesh>
+             <mesh position={[0.22, 0.08, 0.02]}>
+                <sphereGeometry args={[0.02]} />
+                <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+             </mesh>
+          </group>
+        ))}
+
+        {/* 鼻子 */}
+        <mesh position={[0.62, -0.12, 0]} scale={[1, 0.8, 1.2]}>
+          <sphereGeometry args={[0.08]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.5} />
+        </mesh>
+      </group>
+
+      {/* 四肢 (加粗圆润) */}
+      {[
+        { pos: [0.6, -0.7, 0.6], rot: [0.2, 0, 0] },
+        { pos: [0.6, -0.7, -0.6], rot: [-0.2, 0, 0] },
+        { pos: [-0.6, -0.75, 0.65], rot: [0.1, 0, 0] },
+        { pos: [-0.6, -0.75, -0.65], rot: [-0.1, 0, 0] }
+      ].map((config, i) => (
+        <mesh key={i} position={config.pos as any} rotation={config.rot as any} castShadow>
+           <capsuleGeometry args={[0.28, 0.7, 8, 16]} />
+           <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+      ))}
+      
+      {/* 短尾巴 */}
+      <mesh position={[-0.95, 0.1, 0]}>
+         <sphereGeometry args={[0.15]} />
+         <meshStandardMaterial color="#f8fafc" />
+      </mesh>
+    </group>
+  );
+};
+
 // --- 通用动物/植物/几何渲染分发 ---
 
 const AnimalModelDispatcher = ({ type, params }: { type: string, params: any }) => {
   if (type === 'tiger') return <TigerModel params={params} />;
+  if (type === 'panda') return <PandaModel />;
   
-  // 大熊猫
-  if (type === 'panda') {
-    return (
-      <group>
-        <mesh castShadow><sphereGeometry args={[1, 32, 32]} /><meshStandardMaterial color="#ffffff" roughness={0.9} /></mesh>
-        <group position={[0.8, 0.5, 0]}>
-          <mesh castShadow><sphereGeometry args={[0.65, 24, 24]} /><meshStandardMaterial color="#ffffff" /></mesh>
-          <mesh position={[0.3, 0.15, 0.25]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#000000" /></mesh>
-          <mesh position={[0.3, 0.15, -0.25]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#000000" /></mesh>
-        </group>
-        {[[0.5, -0.6, 0.6], [0.5, -0.6, -0.6], [-0.5, -0.6, 0.6], [-0.5, -0.6, -0.6]].map((p, i) => (
-          <mesh key={i} position={p as any}><capsuleGeometry args={[0.25, 0.6]} /><meshStandardMaterial color="#000000" /></mesh>
-        ))}
-      </group>
-    );
-  }
-
   return (
     <group>
       <mesh castShadow><boxGeometry args={[1.5, 0.8, 0.8]} /><meshStandardMaterial {...params} /></mesh>
