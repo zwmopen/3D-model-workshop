@@ -1,20 +1,61 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 3D Model Workshop
 
-# Run and deploy your AI Studio app
+一个用于生成和整理 3D 模型素材的实验性工作台。
 
-This contains everything you need to run your app locally.
+## 当前状态
 
-View your app in AI Studio: https://ai.studio/apps/drive/1t30xw0XHN0AR-luW6MbZlX8iZmvzEJ6l
+这个项目目前已暂停维护，保留为公开作品集和视觉玩法探索记录。
 
-## Run Locally
+它原本是配合 Life Game Management System 使用的，希望用 AI 构建一些好看的 3D 模型，放进人生游戏、番茄钟、专注树、专注森林等场景里，让专注和行动更有视觉反馈。
 
-**Prerequisites:**  Node.js
+## 它想解决什么问题
 
+当时的核心问题是：如果人生管理系统只是表格、任务和按钮，就不够有沉浸感。游戏化系统需要更具象的视觉奖励，比如树、植物、动物、道具、场景和 3D 装饰。
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+这个项目尝试解决：
+
+- 为人生游戏系统准备 3D 素材
+- 用 AI 辅助构建或整理模型
+- 为专注树、番茄钟、成长场景提供视觉元素
+- 让完成任务后的反馈更像游戏里的奖励
+- 探索 Web 应用中 3D 模型的展示和管理方式
+
+它本质上是 Life Game Management System 的视觉素材工作台。
+
+## 设计思路
+
+设计上更偏向“创作工作台”而不是完整产品：
+
+- 在 Web 界面里组织模型和素材
+- 用组件化方式承载不同模型类别
+- 为专注、成长、奖励等场景准备可视化元素
+- 尝试把 3D 模型和个人管理系统连接起来
+
+它的目标不是单独成为一个 3D 建模工具，而是服务于更大的“人生游戏化体验”。
+
+## 后来的反思
+
+这个方向有趣，但它依赖一个前提：人生游戏管理器本身要继续成立。
+
+当 Life Game Management System 暂时废弃后，这个 3D 工作台也自然失去了主要使用场景。
+
+更深一层的反思是：视觉奖励可以带来新鲜感，但如果现实行动本身没有推进，视觉反馈也会变成额外维护成本。工具可以增加氛围，但不能替代行动。
+
+## 是否继续维护
+
+暂不维护。
+
+后续如果重新启动，可能会作为某个具体应用的素材模块，而不是独立维护：
+
+- 专注树 / 专注森林素材库
+- 人生游戏奖励系统素材
+- AI 生成 3D 资产展示页
+- Web 3D 场景组件库
+
+## 技术栈
+
+项目主要基于 TypeScript、React / Vite 生态构建，用于探索 Web 端 3D 素材管理和展示。
+
+## 作品集说明
+
+这个仓库展示的是一次“把个人管理系统做得更有游戏感”的视觉探索。它现在不再维护，但保留了当时想把 AI、3D、专注和人生游戏连接起来的思路。
